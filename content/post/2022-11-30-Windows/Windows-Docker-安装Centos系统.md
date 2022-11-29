@@ -2,14 +2,13 @@
 title: Windows-Docker-安装Centos系统
 author: Yao John
 date: '2022-11-30'
-slug: Windows
+slug: Windows-Docker-安装Centos系统
 categories:
   - Windows
 tags:
   - Docker
   - Windows
   - Centos
-
 ---
 
 # windows docker 安装centOS系统
