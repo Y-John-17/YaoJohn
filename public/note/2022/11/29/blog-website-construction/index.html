@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Blog-Website-Construction - Yao John</title>
+    <meta property="og:title" content="Blog-Website-Construction - Yao John">
+    
+    <meta name="twitter:card" content="summary">
+
+    
+      
+    
+
+    
+      
+      <meta property="description" content="brief introduction
+[&amp;hellip;] hugo : The blog generation framework used in this article
+[&amp;hellip;] github : Blog dynamic remote storage warehouse (realize web page dynamic refresh)
+[&amp;hellip;] netlify &amp;hellip;">
+      <meta property="og:description" content="brief introduction
+[&amp;hellip;] hugo : The blog generation framework used in this article
+[&amp;hellip;] github : Blog dynamic remote storage warehouse (realize web page dynamic refresh)
+[&amp;hellip;] netlify &amp;hellip;">
+      
+    
+
+    
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    <link rel="stylesheet" href="/css/custom.css" />
+
+  </head>
+
+  
+  <body class="note">
+    <header class="masthead">
+      <h1><a href="/">Yao John</a></h1>
+
+<p class="tagline">A Hugo theme.</p>
+
+      <nav class="menu">
+  <input id="menu-check" type="checkbox" hidden/>
+  <label id="menu-label" for="menu-check" class="unselectable" hidden>
+    <span class="icon close-icon">✕</span>
+    <span class="icon open-icon">☰</span>
+    <span class="text">Menu</span>
+  </label>
+  <ul>
+  
+  
+  <li><a href="/">Home</a></li>
+  
+  <li><a href="/about/">About</a></li>
+  
+  <li><a href="/categories/">Categories</a></li>
+  
+  <li><a href="/tags/">Tags</a></li>
+  
+  <li><a href="/index.xml">Subscribe</a></li>
+  
+  
+  </ul>
+</nav>
+
+    </header>
+
+    <article class="main">
+      <header class="title">
+      
+<h1>Blog-Website-Construction</h1>
+
+<h3>Yao John
+  /  2022-11-29</h3>
+<hr>
+
+
+      </header>
+
+
+
+
+
+<h1 id="personal-blog-building">Personal Blog Building</h1>
+<blockquote>
+<p><strong>brief introduction</strong></p>
+</blockquote>
+<ul>
+<li>
+<p><a href="https://github.com/gohugoio/hugo/releases">hugo</a> : The blog generation framework used in this article</p>
+</li>
+<li>
+<p><a href="https://github.com/">github</a> : Blog dynamic remote storage warehouse (realize web page dynamic refresh)</p>
+</li>
+<li>
+<p><a href="app.netlify.com">netlify</a> : Web hosting (Publication of web pages)</p>
+</li>
+<li>
+<p><a href="https://git-scm.com">Git</a>: Complete the remote warehouse download and push tool</p>
+</li>
+</ul>
+<h2 id="environment-construction">Environment Construction</h2>
+<blockquote>
+<p><a href="https://www.r-project.org/">R compiled language</a></p>
+</blockquote>
+<ul>
+<li>
+<p>Choose a close mirror image</p>
+</li>
+<li>
+<p>Select an installation package for your operating system , and performing the installation</p>
+</li>
+</ul>
+<blockquote>
+<p><a href="https://posit.co/products/open-source/rstudio/">R studio</a></p>
+</blockquote>
+<ul>
+<li>Download and installation</li>
+</ul>
+<blockquote>
+<p><a href="https://github.com/gohugoio/hugo/releases">Hugo</a></p>
+</blockquote>
+<ul>
+<li>You can choose to install it in your own operating system, or you can choose to install it in Rstudio (usually not recommended)</li>
+</ul>
+<blockquote>
+<p><a href="https://github.com/">Github</a></p>
+</blockquote>
+<ul>
+<li>
+<p>Sign up a Github account</p>
+</li>
+<li>
+<p>Create a new repository ( remember to ==Add a README file==)</p>
+</li>
+</ul>
+<blockquote>
+<p><a href="netlify">netlify</a></p>
+</blockquote>
+<ul>
+<li>You can sign in with the github acount</li>
+</ul>
+<h2 id="blog-building">Blog Building</h2>
+<blockquote>
+<p>There are three ways to do this</p>
+</blockquote>
+<h3 id="the-first-way">The first way</h3>
+<blockquote>
+<p>Open Rstudio</p>
+</blockquote>
+<ul>
+<li>install.package(&lsquo;blogdown&rsquo;)</li>
+</ul>
+<blockquote>
+<p>Following Steps</p>
+</blockquote>
+<ul>
+<li><code>file</code> &ndash;&gt;<code>New Project</code>&ndash;&gt;<code>New Directory</code>&ndash;&gt;selecting <code>Website using blogdown</code>among the options. next, type &ldquo;Your blog directory name&rdquo; at <code>Directory name</code>and &ldquo;Your Hugo theme you liked (==Usual format: Author/subject name==)&rdquo; at <code>Hugo theme</code>,at last, choose <code>Open in new session</code>&ndash;&gt;<code>Create Project</code></li>
+<li>now, we already compeleted environment construction and file project for the blog creation</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span> <span style="color:#75715e"># preview the blog website   </span>
+</span></span><span style="display:flex;"><span>`blogdown::server() `     
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># If you want to change the theme of you blog webits,try doing so   </span>
+</span></span><span style="display:flex;"><span>`blogdown::new_site( theme = &#34;Author/subject name&#34;)` 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># New blogs</span>
+</span></span><span style="display:flex;"><span>`Addins`<span style="color:#f92672">--&gt;</span>`New Post`
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Finish building your website   </span>
+</span></span><span style="display:flex;"><span>`blogdown::build_site()`  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># next step is to publish</span>
+</span></span></code></pre></div><h3 id="the-second-way">The second way</h3>
+<ul>
+<li>Firstly, copy your github repository&rsquo;s <a href="URL">code</a> (This is used for cloning and push) <code>file</code> &ndash;&gt;<code>New Project</code>&ndash;&gt;<code>Version Control</code>&ndash;&gt;<code>Git</code>,type your <a href="URL">repository URL</a> and project directory name</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(blogdown)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>blogdown<span style="color:#f92672">::</span><span style="color:#a6e22e">new_site</span>( theme <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Author/subject name&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>blogdown<span style="color:#f92672">::</span><span style="color:#a6e22e">server</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>blogdown<span style="color:#f92672">::</span><span style="color:#a6e22e">build_site</span>()  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># next step is to publish</span>
+</span></span></code></pre></div><hr>
+<h3 id="the-third-way">The third way</h3>
+<ul>
+<li>This is the simplest of the three methods</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#75715e"># Create a new blog space</span>
+</span></span><span style="display:flex;"><span>hugo new site <span style="color:#e6db74">&#34;Your blog&#39;s name&#34;</span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Download a hugo theme</span>
+</span></span><span style="display:flex;"><span>git clone https<span style="color:#f92672">://</span>github.com<span style="color:#f92672">/</span>digitalcraftsman<span style="color:#f92672">/</span>hugo<span style="color:#f92672">-</span>agency<span style="color:#f92672">-</span>theme   themes<span style="color:#f92672">/</span><span style="color:#e6db74">&#34;theme&#39;s name&#34;</span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> <span style="color:#75715e"># preview and build</span>
+</span></span><span style="display:flex;"><span>hugo server <span style="color:#f92672">-</span>t hugo<span style="color:#f92672">-</span>agency<span style="color:#f92672">-</span>theme <span style="color:#f92672">--</span>buildDrafts
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Add a blog  </span>
+</span></span><span style="display:flex;"><span>hugo new posts<span style="color:#f92672">/</span>blog.md
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># construct framework</span>
+</span></span><span style="display:flex;"><span>hugo <span style="color:#f92672">--</span>theme<span style="color:#f92672">=</span>hugo<span style="color:#f92672">-</span>agency<span style="color:#f92672">-</span>theme <span style="color:#f92672">--</span>baseUrl<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://lastknightcoder.github.io/&#34;</span> <span style="color:#f92672">--</span>buildDrafts
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># check</span>
+</span></span><span style="display:flex;"><span>cd public  
+</span></span><span style="display:flex;"><span>ls  
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># next step is to publish</span>
+</span></span></code></pre></div><ul>
+<li>Now, you can browse public, this folder contains all of your blog website files, [host this folder on <a href="netlify">netlify</a> and you will be able to see your web blog generated](static). But this requires you to manually refresh the web content, let&rsquo;s try hosting web content on GitHub</li>
+</ul>
+<h2 id="host-your-website">Host your website</h2>
+<ul>
+<li>In this step , You need to use git to do this</li>
+</ul>
+<p><code>Open Git Bash</code></p>
+<ul>
+<li>
+<p><code>Set User.name</code>：git config &ndash;global user.name&quot;<code>github's username</code>&quot;</p>
+</li>
+<li>
+<p><code>Set User.eamil</code>：git config &ndash;global user.email &ldquo;<code>register's email</code>&rdquo;</p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#75715e"># Clone Repositroy</span>
+</span></span><span style="display:flex;"><span>git clone <span style="color:#e6db74">&#34;Your repositroy&#39;s URL&#34;</span>   
+</span></span><span style="display:flex;"><span>ls
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cd <span style="color:#e6db74">&#34;Your repositroy&#39;s name&#34;</span>   
+</span></span><span style="display:flex;"><span>cp <span style="color:#f92672">/</span>public<span style="color:#f92672">/</span> .  <span style="color:#f92672">/</span><span style="color:#e6db74">&#34;Your repositroy&#39;s name&#34;</span><span style="color:#f92672">/</span>public
+</span></span><span style="display:flex;"><span><span style="color:#75715e">### don&#39;t replace README.md   </span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>git init   
+</span></span><span style="display:flex;"><span>git add .   
+</span></span><span style="display:flex;"><span>git commit <span style="color:#f92672">-</span>m <span style="color:#e6db74">&#34;my first commit&#34;</span>   
+</span></span><span style="display:flex;"><span>git remote add origin <span style="color:#e6db74">&#34;Your repositroy&#39;s URL&#34;</span>   
+</span></span><span style="display:flex;"><span>git push <span style="color:#f92672">-</span>u origin master <span style="color:#75715e">#/(mian)</span>
+</span></span></code></pre></div><h3 id="open-netlifynetlify">open <a href="netlify">netlify</a></h3>
+<ul>
+<li><code>Add new site</code>&ndash;&gt;<code>Import an existing project</code>&ndash;&gt;choose GitHub&ndash;&gt;selecting your repositroy</li>
+</ul>
+<h2 id="epilogue">Epilogue</h2>
+<p>The construction of a blog seems very simple, but we can see a lot of things from it. Its function is simply to give you a rigid website to record learning and memories, and it also reflects your growth. You should fill your blog including your life with efforts and sweat</p>
+<pre tabindex="0"><code> &lt;p align=&#34;left&#34;&gt;[netlify]:app.netlify.com&lt;/p&gt;  
+ &lt;p align=&#34;left&#34;&gt;[URL]:`open repository`--&gt;`code`--&gt;&#39;HTTPS&#39;&lt;/p&gt;  
+ &lt;p align=&#34;left&#34;&gt;[static]:`open netlify website`--&gt; `Add new site`--&gt;`Deploy manually` just wait a few minutes&lt;/p&gt;
+</code></pre>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="/note/2022/11/22/%E8%8B%8F%E4%B8%9C%E5%9D%A1%E4%BC%A0/">苏东坡传</a></span>
+  <span class="nav-next"></span>
+</nav>
+
+
+
+
+
+<script src="//yihui.org/js/math-code.js"></script>
+<script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+<script async src="//yihui.org/js/center-img.js"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+  
+  <hr>
+  <div class="copyright">© <a href="https://wind.netlify.app">Yao John</a> 2022 | <a href="https://github.com/Y-John-17/YaoJohn">Github</a></div>
+  
+  </footer>
+  </article>
+  
+  </body>
+</html>
+

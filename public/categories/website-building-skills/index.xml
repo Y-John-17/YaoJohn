@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Website building skills on Yao John</title>
+    <link>/categories/website-building-skills/</link>
+    <description>Recent content in Website building skills on Yao John</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 29 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="/categories/website-building-skills/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Blog-Website-Construction</title>
+      <link>/note/2022/11/29/blog-website-construction/</link>
+      <pubDate>Tue, 29 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>/note/2022/11/29/blog-website-construction/</guid>
+      <description>Personal Blog Building brief introduction
+hugo : The blog generation framework used in this article
+github : Blog dynamic remote storage warehouse (realize web page dynamic refresh)
+netlify : Web hosting (Publication of web pages)
+Git: Complete the remote warehouse download and push tool
+Environment Construction R compiled language
+Choose a close mirror image
+Select an installation package for your operating system , and performing the installation
+R studio
+Download and installation Hugo</description>
+    </item>
+    
+  </channel>
+</rss>
