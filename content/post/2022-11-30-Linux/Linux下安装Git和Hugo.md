@@ -2,13 +2,13 @@
 title: Linux下安装Git和Hugo
 author: Yao John
 date: '2022-11-30'
-slug: Linux
+slug: Linux下安装Git和Hugo
 categories:
   - Linux
 tags:
   - Linux
-  - Hugo
   - Git
+  - Hugo
 ---
 
 # Linux下安装 Git 和 Hugo

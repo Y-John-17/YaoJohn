@@ -1,13 +1,13 @@
 ---
-title: Windows-Docker-安装CentOS系统
+title: Windows-Docker-安装Centos系统
 author: Yao John
 date: '2022-11-30'
-slug: Windows-Docker-安装CentOS系统
+slug: Windows-Docker-安装Centos系统
 categories:
   - Windows
 tags:
-  - Windows
   - Docker
+  - Windows
   - Centos
 ---
 
@@ -23,7 +23,12 @@ tags:
 
 可以查看已经把centos的镜像拉取到本地
 
-![1](C:\Users\John\Desktop\YaoJohn-website\YaoJohn\content\post\2020-12-01-r-rmarkdown\index_files\figure-html\1.png)
+```html
+<div class="figure">
+<img src="{{< blogdown/postref >}}index_files/figure-html/1.png" alt="A fancy pie chart." width="672" />
+<p class="caption">Figure 1: A fancy pie chart.</p>
+</div>
+```
 
 ## （3)  创建并运行容器
 
@@ -33,8 +38,6 @@ tags:
 
 执行完命令后，在命令下方会出现容器ID。
 
-![2](C:\Users\John\Desktop\YaoJohn-website\YaoJohn\content\post\2020-12-01-r-rmarkdown\index_files\figure-html\2.png)
-
 ## （4)  进入使用容器
 
 命令：`docker exec -it 82d5f bash`
@@ -42,8 +45,6 @@ tags:
 在此处容器的ID只输入前5位，系统会自动识别容器ID
 
 命令格式：`docker exec -it <CONTAINER ID> bash`
-
-![3](C:\Users\John\Desktop\YaoJohn-website\YaoJohn\content\post\2020-12-01-r-rmarkdown\index_files\figure-html\3.png)
 
 ## （5)  安装工具
 
