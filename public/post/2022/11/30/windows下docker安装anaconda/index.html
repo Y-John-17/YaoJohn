@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Windows下Docker安装Anaconda - Yao John</title>
+    <meta property="og:title" content="Windows下Docker安装Anaconda - Yao John">
+    
+    <meta name="twitter:card" content="summary">
+
+    
+      
+    
+
+    
+      
+      <meta property="description" content="docker是一个开源的应用容器引擎，你可以简单地把它理解为虚拟机（其实和虚拟机还是有区别的）。不管你的电脑是windows，linux还是mac，只要使用相同的docker镜像运行一个容器，就可以在容器中运行你的程序，不必担心依赖和兼容性问题。
+安装docker的步骤不是本文的重点，可以参考网络上其它教程。windows电脑可能需要开启hyper-v，并且有可能需要在bios中启用虚拟化技术，或 &amp;hellip;">
+      <meta property="og:description" content="docker是一个开源的应用容器引擎，你可以简单地把它理解为虚拟机（其实和虚拟机还是有区别的）。不管你的电脑是windows，linux还是mac，只要使用相同的docker镜像运行一个容器，就可以在容器中运行你的程序，不必担心依赖和兼容性问题。
+安装docker的步骤不是本文的重点，可以参考网络上其它教程。windows电脑可能需要开启hyper-v，并且有可能需要在bios中启用虚拟化技术，或 &amp;hellip;">
+      
+    
+
+    
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    <link rel="stylesheet" href="/css/custom.css" />
+
+  </head>
+
+  
+  <body class="post">
+    <header class="masthead">
+      <h1><a href="/">Yao John</a></h1>
+
+<p class="tagline">A Hugo theme.</p>
+
+      <nav class="menu">
+  <input id="menu-check" type="checkbox" hidden/>
+  <label id="menu-label" for="menu-check" class="unselectable" hidden>
+    <span class="icon close-icon">✕</span>
+    <span class="icon open-icon">☰</span>
+    <span class="text">Menu</span>
+  </label>
+  <ul>
+  
+  
+  <li><a href="/">Home</a></li>
+  
+  <li><a href="/about/">About</a></li>
+  
+  <li><a href="/categories/">Categories</a></li>
+  
+  <li><a href="/tags/">Tags</a></li>
+  
+  <li><a href="/index.xml">Subscribe</a></li>
+  
+  
+  </ul>
+</nav>
+
+    </header>
+
+    <article class="main">
+      <header class="title">
+      
+<h1>Windows下Docker安装Anaconda</h1>
+
+<h3>Yao John
+  /  2022-11-30</h3>
+<hr>
+
+
+      </header>
+
+
+
+
+
+<h1 id="windows下docker安装anaconda">Windows下Docker安装Anaconda</h1>
+<blockquote>
+<p>docker是一个开源的应用容器引擎，你可以简单地把它理解为虚拟机（其实和虚拟机还是有区别的）。不管你的电脑是windows，linux还是mac，只要使用相同的docker镜像运行一个容器，就可以在容器中运行你的程序，不必担心依赖和兼容性问题。</p>
+<p>安装docker的步骤不是本文的重点，可以参考网络上其它教程。windows电脑可能需要开启hyper-v，并且有可能需要在bios中启用虚拟化技术，或者需要安装vbox等虚拟机软件。</p>
+</blockquote>
+<h2 id="配置docker-desktop环境">配置Docker-Desktop环境</h2>
+<ul>
+<li>
+<p>控制面板&ndash;&gt;程序&ndash;&gt;启用Windows功能&ndash;&gt;打开<code>hyper-v</code>和<code>适用于Liunx的Windows子系统</code>功能重启电脑</p>
+</li>
+<li>
+<p><a href="https://www.docker.com/products/docker-desktop/">Docker</a></p>
+</li>
+<li>
+<p>选择Windows操作系统的安装包下载并安装，可能会涉及到重启电脑</p>
+</li>
+</ul>
+<h2 id="拉取anaconda镜像到本地">拉取anaconda镜像到本地</h2>
+<ul>
+<li>
+<p>安装好docker并确认服务启动后</p>
+</li>
+<li>
+<p>在<code>powershell</code>命令行下直接运行如下命令就可以<strong>基于官方的anaconda3镜像实例化一个本地容器</strong>：</p>
+</li>
+</ul>
+<pre tabindex="0"><code class="language-Git" data-lang="Git">docker run -it --name=&#34;anaconda&#34; -p 8888:8888 continuumio/anaconda3 /bin/bash
+</code></pre><ul>
+<li>
+<p>参数<code>-it</code>是启用交互式终端，<code>--name=&quot;anaconda&quot;</code>是给容器起名字（只要你记得住，可以换成别的名字），<code>-p 8888:8888</code>是将容器的8888端口映射到本地的8888端口，便于访问jupyter。</p>
+</li>
+<li>
+<p>docker会自动从docker hub下载最新的anaconda3镜像并创建容器，之后你就进入容器中了。在容器中，运行如下命令<strong>安装jupyter笔记本</strong></p>
+</li>
+</ul>
+<pre tabindex="0"><code class="language-Git" data-lang="Git">conda install -c conda-forge jupyterlab
+</code></pre><h2 id="启动jupyter-lab">启动jupyter lab：</h2>
+<ul>
+<li>在<code>docker-desktop</code>中选择<code>anaconda</code>容器并运行</li>
+<li>点击容器图标，进入命令行，执行如下命令</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd ~
+</span></span><span style="display:flex;"><span>jupyter lab --ip<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;*&#39;</span> --port<span style="color:#f92672">=</span><span style="color:#ae81ff">8888</span> --no-browser --allow-root
+</span></span></code></pre></div><ul>
+<li>然后你应该能看到类似</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>I 13:37:11.236 LabApp<span style="color:#f92672">]</span> Use Control-C to stop this server and shut down all kernels <span style="color:#f92672">(</span>twice to skip confirmation<span style="color:#f92672">)</span>.
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>C 13:37:11.239 LabApp<span style="color:#f92672">]</span> 
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    To access the notebook, open this file in a browser:
+</span></span><span style="display:flex;"><span>        file:///root/.local/share/jupyter/runtime/nbserver-30-open.html
+</span></span><span style="display:flex;"><span>    Or copy and paste one of these URLs:
+</span></span><span style="display:flex;"><span>        http://10f788d1f6a3:8888/?token<span style="color:#f92672">=</span>***********
+</span></span><span style="display:flex;"><span>     or http://127.0.0.1:8888/?token<span style="color:#f92672">=</span>**********
+</span></span></code></pre></div><ul>
+<li>点击最下面的其中一条链接进入浏览器，就能看到熟悉的jupyter lab界面了。
+首先按Control+C退出jupyter笔记本，然后运行命令</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>exit
+</span></span></code></pre></div>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="/post/2020/12/01/hello-r-markdown/">Hello R Markdown</a></span>
+  <span class="nav-next"><a href="/post/2022/11/30/windows-docker-%E5%AE%89%E8%A3%85centos%E7%B3%BB%E7%BB%9F/">Windows-Docker-安装Centos系统</a> &rarr;</span>
+</nav>
+
+
+
+
+
+<script src="//yihui.org/js/math-code.js"></script>
+<script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+<script async src="//yihui.org/js/center-img.js"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+  
+  <hr>
+  <div class="copyright">© <a href="https://wind.netlify.app">Yao John</a> 2022 | <a href="https://github.com/Y-John-17/YaoJohn">Github</a></div>
+  
+  </footer>
+  </article>
+  
+  </body>
+</html>
+

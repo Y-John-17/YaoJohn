@@ -6,7 +6,156 @@
     <description>Recent content in Posts on Yao John</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 01 Dec 2020 21:13:14 -0500</lastBuildDate><atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 30 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hadoop</title>
+      <link>/post/2022/11/30/hadoop/</link>
+      <pubDate>Wed, 30 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2022/11/30/hadoop/</guid>
+      <description>Hadoop-3.1.4 完全分布式集群搭建 Hadoop是一个由Apache基金会所开发的分布式系统基础架构。用户可以在不了解分布式底层细节的情况下，开发分布式程序。充分利用集群的威力进行高速运算和存储。Hadoop实现了一个分布式文件系统（ Distributed File System），其中一个组件是HDFS（Hadoop Distributed File System）。HDFS有高容错性的特点，并且设计用来部署在低廉的（low-cost）硬件上；而且它提供高吞吐量（high throughput）来访问应用程序的数据，适合那些有着超大数据集（large data set）的应用程序。HDFS放宽了（relax）POSIX的要求，可以以流的形式访问（streaming access）文件系统中的数据。Hadoop的框架最核心的设计就是：HDFS和MapReduce。HDFS为海量的数据提供了存储，而MapReduce则为海量的数据提供了计算。
+虚拟机安装和网卡启用 虚拟机安装过程掠过，自行百度查阅了解
+本文所采用的虚拟机版本为 cetos7
+IP地址的设置要确保和你的虚拟网卡网络地址网段相同
+主机名 IP地址 备注 node1 192.168.153.151 主节点，数据节点 node2 192.168.153.152 副节点，数据节点 node3 192.168.153.153 数据节点 启用网卡
+vi /etc/sysconfig/networscripts/ifcfg-ens33 ONBOOT = yes DNS1 = 8.8.8.8 ping baidu.com # ping通即可 主机名和IP地址映射
+在原有文件下添加如下字段 vim /etc/hosts 192.168.153.151 node1 192.168.153.152 node2 192.168.153.153 node3 JAVA 环境部署 Hadoop的创始人是Doug Cutting， 同时也是著名的基于Java的检索引擎库Apache Lucene的创始人。Hadoop本来是用于著名的开源搜索引擎Apache Nutch，而Nutch本身是基于Lucene的，而且也是Lucene的一个子项目。因此Hadoop基于Java就很理所当然了，所以，Hadoop是由Java编写的。
+Hadoop采用Java编写，因而Hadoop天生支持Java语言编写作业，但在实际应用中，有时候，因要用到非Java的第三方库或者其他原因，要采用C/C++或者其他语言编写MapReduce作业，这时候可能要用到Hadoop提供的一些工具。
+如果你要用C/C++编写MpaReduce作业，可使用的工具有Hadoop Streaming或者Hadoop Pipes。
+如果你要用Python编写MapReduce作业，可以使用Hadoop Streaming或者Pydoop。
+如果你要使用其他语言，如shell，php，ruby等，可使用Hadoop Streaming。
+安装
+进入/opt路径创建并进入/software，将jdk-8u281-linux-x64.rpm文件上传到/opt/software cd /opt mkdir software cd software rpm -ivh jdk-8u281-linux-x64.</description>
+    </item>
+    
+    <item>
+      <title>Hadoop词频统计</title>
+      <link>/post/2022/11/30/hadoop%E8%AF%8D%E9%A2%91%E7%BB%9F%E8%AE%A1/</link>
+      <pubDate>Wed, 30 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2022/11/30/hadoop%E8%AF%8D%E9%A2%91%E7%BB%9F%E8%AE%A1/</guid>
+      <description>Hadoop词频统计 前期准备 该实验采用Hadoop单分布模式即可满足，需要自己前期搭建
+Hadoop守护进程启动
+cd ./hadoop/sbin/start-all.sh 查看相关守护进程是否已经启动 使用jps命令 Jps NodeManager SecondaryNameNode NameNode DataNode ResourceManager 数据集预处理
+数据集编码格式UTF-8,所采用数据集中词频采用统一分隔符，否则需要自行编写函数 在Linux用户目录下新建一个wordcount文件夹，导入数据集 在hdfs新建文件目录 hdfs dfs -mkdir /wordcount hdfs dfs -mkdir /wordcount/input hdfs dfs -mkdir /wordcount/output 将数据集存储到hdfs cd /tmp/wordcount hdfs dfs -put wordcount.txt /wordcount/input hdfs dfs -ls /input 使用Hadoop自带的Jar文件脚本处理数据 数据集处理
+cd ./hadoop/share/hadoop/mapreduce/
+ll hadoop-mapreduce-examples-3.1.3.jar
+hadoop jar ./hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.1.3.jar wordcount wordcount/input/wordcount.txt wordcount/output #jar表示运行脚本类型，后面是具体脚本存储路径，wordcount是脚本中Java主函数类名，后面是数据集存储路径和输出路径 数据集处理结果查看
+hdfs dfs -cat /wordcount/output/part-r-00000 数据集处理结果下载
+hdfs dfs -get /wordcount/output/
+End ! </description>
+    </item>
+    
+    <item>
+      <title>Linux下安装Git和Hugo</title>
+      <link>/post/2022/11/30/linux%E4%B8%8B%E5%AE%89%E8%A3%85git%E5%92%8Chugo/</link>
+      <pubDate>Wed, 30 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2022/11/30/linux%E4%B8%8B%E5%AE%89%E8%A3%85git%E5%92%8Chugo/</guid>
+      <description>Linux下安装 Git 和 Hugo 1.安装git yum install gitgit # 查看是否安装成功git config --global user.name &amp;#34;你的昵称&amp;#34; git config --global user.email &amp;#34;你的邮箱&amp;#34; 2.安装Hugo # 第一种方式是上传安装包 `hugo_0.65.1_Linux-64bit.deb` 在可视化桌面下点击打开即可安装# 第二种方法采用压缩包安装（操作更加简便）hugo_0.65.1_Linux-64bit.tar.gzsudo tar -zxvf hugo_0.65.1_Linux-64bit.tar.gz -C /usr/local/bin/ # 无需配置环境变量 Hugo Themes
+你能在这个网站挑选一个你喜欢的主题，并下载到本地，方便后面博客的美化 </description>
+    </item>
+    
+    <item>
+      <title>Linux安装Node.js（详细）Node.js安装教程</title>
+      <link>/post/2022/11/30/linux%E5%AE%89%E8%A3%85node.js%E8%AF%A6%E7%BB%86node.js%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/</link>
+      <pubDate>Wed, 30 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2022/11/30/linux%E5%AE%89%E8%A3%85node.js%E8%AF%A6%E7%BB%86node.js%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/</guid>
+      <description>linux安装Node.js（详细）Node.js安装教程 文章目录 linux安装Node.js（详细）Node.js安装教程
+1：下载 2：解压 3：移动目录 1：创建目录 2：移动目录并重命名 4：设置环境变量 5：刷新修改 6：安装完成，查看版本号 1：下载 wget https://nodejs.org/dist/v14.17.4/node-v14.17.4-linux-x64.tar.xz
+更多版本选择：
+&amp;mdash;-&amp;gt;[更多nodejs版本下载](Download | Node.js (nodejs.org))
+版本太高可能会导致其他不兼容，在选择版本时根据个人配置选择
+2：解压 tar xf node-v14.17.4-linux-x64.tar.xz
+可以查看当前目录下的文件，执行：ls （命令）
+解压成功后可以选择删除压缩包：rm -rf node-v14.17.4-linux-x64.tar.xz
+其中：-f 会提醒是否删除 ；-rf 会强制删除，不会提醒。（使用rf，因为有些人不知道如何操作等待回车的对话线）
+3：移动目录 1：创建目录 mkdir /usr/local/lib/node
+如果目录已经存在，则无需创建，也可以根据自己的喜好设置目录名称
+2：移动目录并重命名 mv node-v14.17.4-linux-x64 /usr/local/lib/node/nodejs
+这里执行了两个步骤，首先将文件移动到node文件夹，然后将文件重命名为nodejs
+4：设置环境变量 注意：这一步需要管理员权限或者对该文件的写入权限。
+执行：
+sudo vim ~/.bash_profile
+输入 i 即可对文件进行编辑。
+在文件底部添加环境变量：
+NODEJS_HOME=/usr/local/lib/node/nodejs export PATH=$NODEJS_HOME/bin 5：刷新修改 source /etc/profile
+6：安装完成，查看版本号 node版本号：
+node -v
+npm版本号：
+npm -v</description>
+    </item>
+    
+    <item>
+      <title>MapReduce气温统计实验</title>
+      <link>/post/2022/11/30/mapreduce%E6%B0%94%E6%B8%A9%E7%BB%9F%E8%AE%A1%E5%AE%9E%E9%AA%8C/</link>
+      <pubDate>Wed, 30 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2022/11/30/mapreduce%E6%B0%94%E6%B8%A9%E7%BB%9F%E8%AE%A1%E5%AE%9E%E9%AA%8C/</guid>
+      <description>MapReduce气温统计实验 一、数据集准备 数据集下载地址：ftp://ftp.ncdc.noaa.gov/pub/data/uscrn/products/daily01
+将下载下来的数据集合并，更名为 temperature.txt
+二、数据集导入 将预处理好的数据导入Linux中，并启动Hadoop集群守护进程
+$ ll temperature.txt 查看文件是否导入成功
+在hdfs创建文件路径和上传数据集
+$ hdfs dfs -mkdir temperature
+$ hdfs dfs -mkdir temperature/input
+$ hdfs dfs -mkdir temperature/output
+$ hdfs dfs -put temperature.txt temperature/input
+在浏览器中核验文件是否上传成功（注意关闭防火墙）
+192.168.153.147:50070 192.168.153.147:8088
+三、数据处理脚本编译 编写 java 文件
+$ vim MyMaxMin.java
+写入脚本代码
+import java.io.IOException; import java.util.Iterator; import org.apache.hadoop.fs.Path; import org.apache.hadoop.io.LongWritable; import org.apache.hadoop.io.Text; import org.apache.hadoop.mapreduce.lib.input.FileInputFormat; import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat; import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat; import org.apache.hadoop.mapreduce.lib.input.TextInputFormat; import org.apache.hadoop.mapreduce.Job; import org.apache.hadoop.mapreduce.Mapper; import org.apache.hadoop.mapreduce.Reducer; import org.apache.hadoop.conf.Configuration; public class MyMaxMin { //Mapper /** *MaxTemperatureMapper class is static and extends Mapper abstract class having four hadoop generics type LongWritable, Text, Text, Text.</description>
+    </item>
+    
+    <item>
+      <title>Markdown-Syntax</title>
+      <link>/post/2022/11/30/markdown-syntax/</link>
+      <pubDate>Wed, 30 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2022/11/30/markdown-syntax/</guid>
+      <description>&lt;p&gt;This article offers a sample of basic Markdown syntax that can be used in Hugo content files, also it shows whether basic HTML elements are decorated with CSS in a Hugo theme.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Windows-Docker-安装Centos系统</title>
+      <link>/post/2022/11/30/windows-docker-%E5%AE%89%E8%A3%85centos%E7%B3%BB%E7%BB%9F/</link>
+      <pubDate>Wed, 30 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2022/11/30/windows-docker-%E5%AE%89%E8%A3%85centos%E7%B3%BB%E7%BB%9F/</guid>
+      <description>windows docker 安装centOS系统 （1) 拉取镜像 输入命令docker pull centos:7 从仓库拉取centos7的镜像
+（2) 查看本地镜像 命令：docker images
+可以查看已经把centos的镜像拉取到本地
+&amp;lt;div class=&amp;#34;figure&amp;#34;&amp;gt; &amp;lt;img src=&amp;#34;/post/2022/11/30/windows-docker-%E5%AE%89%E8%A3%85centos%E7%B3%BB%E7%BB%9F/index_files/figure-html/1.png&amp;#34; alt=&amp;#34;A fancy pie chart.&amp;#34; width=&amp;#34;672&amp;#34; /&amp;gt; &amp;lt;p class=&amp;#34;caption&amp;#34;&amp;gt;Figure 1: A fancy pie chart.&amp;lt;/p&amp;gt; &amp;lt;/div&amp;gt; （3) 创建并运行容器 命令：docker run -d -i -t 470671670cac /bin/bash
+命令格式：docker run -d -i -t &amp;lt;IMAGE ID&amp;gt; /bin/bash
+执行完命令后，在命令下方会出现容器ID。
+（4) 进入使用容器 命令：docker exec -it 82d5f bash
+在此处容器的ID只输入前5位，系统会自动识别容器ID
+命令格式：docker exec -it &amp;lt;CONTAINER ID&amp;gt; bash
+（5) 安装工具 输入ifconfig命令查看网卡信息，系统找不到
+输入命令安装：yum install -y net-tools</description>
+    </item>
+    
+    <item>
+      <title>Windows下Docker安装Anaconda</title>
+      <link>/post/2022/11/30/windows%E4%B8%8Bdocker%E5%AE%89%E8%A3%85anaconda/</link>
+      <pubDate>Wed, 30 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2022/11/30/windows%E4%B8%8Bdocker%E5%AE%89%E8%A3%85anaconda/</guid>
+      <description>Windows下Docker安装Anaconda docker是一个开源的应用容器引擎，你可以简单地把它理解为虚拟机（其实和虚拟机还是有区别的）。不管你的电脑是windows，linux还是mac，只要使用相同的docker镜像运行一个容器，就可以在容器中运行你的程序，不必担心依赖和兼容性问题。
+安装docker的步骤不是本文的重点，可以参考网络上其它教程。windows电脑可能需要开启hyper-v，并且有可能需要在bios中启用虚拟化技术，或者需要安装vbox等虚拟机软件。
+配置Docker-Desktop环境 控制面板&amp;ndash;&amp;gt;程序&amp;ndash;&amp;gt;启用Windows功能&amp;ndash;&amp;gt;打开hyper-v和适用于Liunx的Windows子系统功能重启电脑
+Docker
+选择Windows操作系统的安装包下载并安装，可能会涉及到重启电脑
+拉取anaconda镜像到本地 安装好docker并确认服务启动后
+在powershell命令行下直接运行如下命令就可以基于官方的anaconda3镜像实例化一个本地容器：
+docker run -it --name=&amp;#34;anaconda&amp;#34; -p 8888:8888 continuumio/anaconda3 /bin/bash 参数-it是启用交互式终端，--name=&amp;quot;anaconda&amp;quot;是给容器起名字（只要你记得住，可以换成别的名字），-p 8888:8888是将容器的8888端口映射到本地的8888端口，便于访问jupyter。
+docker会自动从docker hub下载最新的anaconda3镜像并创建容器，之后你就进入容器中了。在容器中，运行如下命令安装jupyter笔记本
+conda install -c conda-forge jupyterlab 启动jupyter lab： 在docker-desktop中选择anaconda容器并运行 点击容器图标，进入命令行，执行如下命令 cd ~ jupyter lab --ip=&amp;#39;*&amp;#39; --port=8888 --no-browser --allow-root 然后你应该能看到类似 [I 13:37:11.236 LabApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation). [C 13:37:11.239 LabApp] To access the notebook, open this file in a browser: file:///root/.</description>
+    </item>
+    
     <item>
       <title>Hello R Markdown</title>
       <link>/post/2020/12/01/hello-r-markdown/</link>

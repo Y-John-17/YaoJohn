@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Windows-Docker-安装Centos系统 - Yao John</title>
+    <meta property="og:title" content="Windows-Docker-安装Centos系统 - Yao John">
+    
+    <meta name="twitter:card" content="summary">
+
+    
+      
+    
+
+    
+      
+      <meta property="description" content="输入命令docker pull centos:7 从仓库拉取centos7的镜像
+[&amp;hellip;] 命令：docker images
+可以查看已经把centos的镜像拉取到本地
+[&amp;hellip;] &amp;lt;div class=&amp;#34;figure&amp;#34;&amp;gt; &amp;lt;img &amp;hellip;">
+      <meta property="og:description" content="输入命令docker pull centos:7 从仓库拉取centos7的镜像
+[&amp;hellip;] 命令：docker images
+可以查看已经把centos的镜像拉取到本地
+[&amp;hellip;] &amp;lt;div class=&amp;#34;figure&amp;#34;&amp;gt; &amp;lt;img &amp;hellip;">
+      
+    
+
+    
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    <link rel="stylesheet" href="/css/custom.css" />
+
+  </head>
+
+  
+  <body class="post">
+    <header class="masthead">
+      <h1><a href="/">Yao John</a></h1>
+
+<p class="tagline">A Hugo theme.</p>
+
+      <nav class="menu">
+  <input id="menu-check" type="checkbox" hidden/>
+  <label id="menu-label" for="menu-check" class="unselectable" hidden>
+    <span class="icon close-icon">✕</span>
+    <span class="icon open-icon">☰</span>
+    <span class="text">Menu</span>
+  </label>
+  <ul>
+  
+  
+  <li><a href="/">Home</a></li>
+  
+  <li><a href="/about/">About</a></li>
+  
+  <li><a href="/categories/">Categories</a></li>
+  
+  <li><a href="/tags/">Tags</a></li>
+  
+  <li><a href="/index.xml">Subscribe</a></li>
+  
+  
+  </ul>
+</nav>
+
+    </header>
+
+    <article class="main">
+      <header class="title">
+      
+<h1>Windows-Docker-安装Centos系统</h1>
+
+<h3>Yao John
+  /  2022-11-30</h3>
+<hr>
+
+
+      </header>
+
+
+
+
+
+<h1 id="windows-docker-安装centos系统">windows docker 安装centOS系统</h1>
+<h2 id="1--拉取镜像">（1)  拉取镜像</h2>
+<p>输入命令<code>docker pull centos:7 </code>从仓库拉取centos7的镜像</p>
+<h2 id="2--查看本地镜像">（2)  查看本地镜像</h2>
+<p>命令：<code>docker images</code></p>
+<p>可以查看已经把centos的镜像拉取到本地</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;figure&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">img</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/post/2022/11/30/windows-docker-%E5%AE%89%E8%A3%85centos%E7%B3%BB%E7%BB%9F/index_files/figure-html/1.png&#34;</span> <span style="color:#a6e22e">alt</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;A fancy pie chart.&#34;</span> <span style="color:#a6e22e">width</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;672&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">p</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;caption&#34;</span>&gt;Figure 1: A fancy pie chart.&lt;/<span style="color:#f92672">p</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">div</span>&gt;
+</span></span></code></pre></div><h2 id="3--创建并运行容器">（3)  创建并运行容器</h2>
+<p>命令：<code>docker run -d -i -t 470671670cac /bin/bash</code></p>
+<p>命令格式：<code>docker run -d -i -t &lt;IMAGE ID&gt; /bin/bash</code></p>
+<p>执行完命令后，在命令下方会出现容器ID。</p>
+<h2 id="4--进入使用容器">（4)  进入使用容器</h2>
+<p>命令：<code>docker exec -it 82d5f bash</code></p>
+<p>在此处容器的ID只输入前5位，系统会自动识别容器ID</p>
+<p>命令格式：<code>docker exec -it &lt;CONTAINER ID&gt; bash</code></p>
+<h2 id="5--安装工具">（5)  安装工具</h2>
+<p>输入ifconfig命令查看网卡信息，系统找不到</p>
+<p>输入命令安装：<code>yum install -y net-tools</code></p>
+<p><code>docker exec -it 91fe8 bash</code></p>
+
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="/post/2022/11/30/windows%E4%B8%8Bdocker%E5%AE%89%E8%A3%85anaconda/">Windows下Docker安装Anaconda</a></span>
+  <span class="nav-next"><a href="/post/2022/11/30/markdown-syntax/">Markdown-Syntax</a> &rarr;</span>
+</nav>
+
+
+
+
+
+<script src="//yihui.org/js/math-code.js"></script>
+<script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+<script async src="//yihui.org/js/center-img.js"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+  
+  <hr>
+  <div class="copyright">© <a href="https://wind.netlify.app">Yao John</a> 2022 | <a href="https://github.com/Y-John-17/YaoJohn">Github</a></div>
+  
+  </footer>
+  </article>
+  
+  </body>
+</html>
+

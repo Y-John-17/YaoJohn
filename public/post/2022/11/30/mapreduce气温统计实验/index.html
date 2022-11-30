@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>MapReduce气温统计实验 - Yao John</title>
+    <meta property="og:title" content="MapReduce气温统计实验 - Yao John">
+    
+    <meta name="twitter:card" content="summary">
+
+    
+      
+    
+
+    
+      
+      <meta property="description" content="数据集下载地址：ftp://ftp.ncdc.noaa.gov/pub/data/uscrn/products/daily01
+将下载下来的数据集合并，更名为 temperature.txt
+[&amp;hellip;] 将预处理好的数据导入Linux中，并启动Hadoop集群守护进程
+$ ll temperature.txt 查看文件是否导入成功
+在hdfs创建文件路径和上传数据集
+$ hdfs dfs &amp;hellip;">
+      <meta property="og:description" content="数据集下载地址：ftp://ftp.ncdc.noaa.gov/pub/data/uscrn/products/daily01
+将下载下来的数据集合并，更名为 temperature.txt
+[&amp;hellip;] 将预处理好的数据导入Linux中，并启动Hadoop集群守护进程
+$ ll temperature.txt 查看文件是否导入成功
+在hdfs创建文件路径和上传数据集
+$ hdfs dfs &amp;hellip;">
+      
+    
+
+    
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    <link rel="stylesheet" href="/css/custom.css" />
+
+  </head>
+
+  
+  <body class="post">
+    <header class="masthead">
+      <h1><a href="/">Yao John</a></h1>
+
+<p class="tagline">A Hugo theme.</p>
+
+      <nav class="menu">
+  <input id="menu-check" type="checkbox" hidden/>
+  <label id="menu-label" for="menu-check" class="unselectable" hidden>
+    <span class="icon close-icon">✕</span>
+    <span class="icon open-icon">☰</span>
+    <span class="text">Menu</span>
+  </label>
+  <ul>
+  
+  
+  <li><a href="/">Home</a></li>
+  
+  <li><a href="/about/">About</a></li>
+  
+  <li><a href="/categories/">Categories</a></li>
+  
+  <li><a href="/tags/">Tags</a></li>
+  
+  <li><a href="/index.xml">Subscribe</a></li>
+  
+  
+  </ul>
+</nav>
+
+    </header>
+
+    <article class="main">
+      <header class="title">
+      
+<h1>MapReduce气温统计实验</h1>
+
+<h3>Yao John
+  /  2022-11-30</h3>
+<hr>
+
+
+      </header>
+
+
+
+
+
+<h1 id="mapreduce气温统计实验">MapReduce气温统计实验</h1>
+<h2 id="一数据集准备">一、数据集准备</h2>
+<p>数据集下载地址：ftp://ftp.ncdc.noaa.gov/pub/data/uscrn/products/daily01</p>
+<p>将下载下来的数据集合并，更名为  temperature.txt</p>
+<h2 id="二数据集导入">二、数据集导入</h2>
+<p><strong>将预处理好的数据导入Linux中，并启动Hadoop集群守护进程</strong></p>
+<p>$  ll  temperature.txt    查看文件是否导入成功</p>
+<p><strong>在hdfs创建文件路径和上传数据集</strong></p>
+<p>$  hdfs  dfs  -mkdir  temperature</p>
+<p>$  hdfs  dfs  -mkdir  temperature/input</p>
+<p>$  hdfs  dfs  -mkdir  temperature/output</p>
+<p>$  hdfs  dfs  -put   temperature.txt  temperature/input</p>
+<p><strong>在浏览器中核验文件是否上传成功</strong>（注意关闭防火墙）</p>
+<p>192.168.153.147:50070
+192.168.153.147:8088</p>
+<h2 id="三数据处理脚本编译">三、数据处理脚本编译</h2>
+<p><strong>编写  java  文件</strong></p>
+<p>$  vim  MyMaxMin.java</p>
+<p><strong>写入脚本代码</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> java.io.IOException<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.Iterator<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.hadoop.fs.Path<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.hadoop.io.LongWritable<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.hadoop.io.Text<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.hadoop.mapreduce.lib.input.FileInputFormat<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.hadoop.mapreduce.lib.output.FileOutputFormat<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.hadoop.mapreduce.lib.output.TextOutputFormat<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.hadoop.mapreduce.lib.input.TextInputFormat<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.hadoop.mapreduce.Job<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.hadoop.mapreduce.Mapper<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.hadoop.mapreduce.Reducer<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.hadoop.conf.Configuration<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyMaxMin</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//Mapper
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     *MaxTemperatureMapper class is static and extends Mapper abstract class
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     having four hadoop generics type LongWritable, Text, Text, Text.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MaxTemperatureMapper</span> <span style="color:#66d9ef">extends</span>
+</span></span><span style="display:flex;"><span>            Mapper<span style="color:#f92672">&lt;</span>LongWritable<span style="color:#f92672">,</span> Text<span style="color:#f92672">,</span> Text<span style="color:#f92672">,</span> Text<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         * @method map
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         * This method takes the input as text data type.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         * Now leaving the first five tokens,it takes 6th token is taken as temp_max and
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         * 7th token is taken as temp_min. Now temp_max &gt; 35 and temp_min &lt; 10 are passed to the reducer.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">map</span><span style="color:#f92672">(</span>LongWritable arg0<span style="color:#f92672">,</span> Text Value<span style="color:#f92672">,</span> Context context<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">throws</span> IOException<span style="color:#f92672">,</span> InterruptedException <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">//Converting the record (single line) to String and storing it in a String variable line
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>            String line <span style="color:#f92672">=</span> Value<span style="color:#f92672">.</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">//Checking if the line is not empty
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(!(</span>line<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> 0<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">//date
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>                String date <span style="color:#f92672">=</span> line<span style="color:#f92672">.</span><span style="color:#a6e22e">substring</span><span style="color:#f92672">(</span>6<span style="color:#f92672">,</span> 14<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">//maximum temperature
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">float</span> temp_Max <span style="color:#f92672">=</span> Float
+</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">.</span><span style="color:#a6e22e">parseFloat</span><span style="color:#f92672">(</span>line<span style="color:#f92672">.</span><span style="color:#a6e22e">substring</span><span style="color:#f92672">(</span>39<span style="color:#f92672">,</span> 45<span style="color:#f92672">).</span><span style="color:#a6e22e">trim</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">//minimum temperature
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">float</span> temp_Min <span style="color:#f92672">=</span> Float
+</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">.</span><span style="color:#a6e22e">parseFloat</span><span style="color:#f92672">(</span>line<span style="color:#f92672">.</span><span style="color:#a6e22e">substring</span><span style="color:#f92672">(</span>47<span style="color:#f92672">,</span> 53<span style="color:#f92672">).</span><span style="color:#a6e22e">trim</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">//if maximum temperature is greater than 35 , its a hot day
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>temp_Max <span style="color:#f92672">&gt;</span> 35<span style="color:#f92672">.</span><span style="color:#a6e22e">0</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#75715e">// Hot day
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                    context<span style="color:#f92672">.</span><span style="color:#a6e22e">write</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Text<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Hot Day &#34;</span> <span style="color:#f92672">+</span> date<span style="color:#f92672">),</span>
+</span></span><span style="display:flex;"><span>                            <span style="color:#66d9ef">new</span> Text<span style="color:#f92672">(</span>String<span style="color:#f92672">.</span><span style="color:#a6e22e">valueOf</span><span style="color:#f92672">(</span>temp_Max<span style="color:#f92672">)));</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">//if minimum temperature is less than 10 , its a cold day
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>temp_Min <span style="color:#f92672">&lt;</span> 10<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#75715e">// Cold day
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                    context<span style="color:#f92672">.</span><span style="color:#a6e22e">write</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Text<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Cold Day &#34;</span> <span style="color:#f92672">+</span> date<span style="color:#f92672">),</span>
+</span></span><span style="display:flex;"><span>                            <span style="color:#66d9ef">new</span> Text<span style="color:#f92672">(</span>String<span style="color:#f92672">.</span><span style="color:#a6e22e">valueOf</span><span style="color:#f92672">(</span>temp_Min<span style="color:#f92672">)));</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//Reducer
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     *MaxTemperatureReducer class is static and extends Reducer abstract class
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     having four hadoop generics type Text, Text, Text, Text.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MaxTemperatureReducer</span> <span style="color:#66d9ef">extends</span>
+</span></span><span style="display:flex;"><span>            Reducer<span style="color:#f92672">&lt;</span>Text<span style="color:#f92672">,</span> Text<span style="color:#f92672">,</span> Text<span style="color:#f92672">,</span> Text<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         * @method reduce
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         * This method takes the input as key and list of values pair from mapper, it does aggregation
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         * based on keys and produces the final context.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">reduce</span><span style="color:#f92672">(</span>Text Key<span style="color:#f92672">,</span> Iterator<span style="color:#f92672">&lt;</span>Text<span style="color:#f92672">&gt;</span> Values<span style="color:#f92672">,</span> Context context<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">throws</span> IOException<span style="color:#f92672">,</span> InterruptedException <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">//putting all the values in temperature variable of type String
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>            String temperature <span style="color:#f92672">=</span> Values<span style="color:#f92672">.</span><span style="color:#a6e22e">next</span><span style="color:#f92672">().</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>            context<span style="color:#f92672">.</span><span style="color:#a6e22e">write</span><span style="color:#f92672">(</span>Key<span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> Text<span style="color:#f92672">(</span>temperature<span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * @method main
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * This method is used for setting all the configuration properties.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * It acts as a driver for map reduce code.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//reads the default configuration of cluster from the configuration xml files
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        Configuration conf <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Configuration<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//Initializing the job with the default configuration of the cluster
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        Job job <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Job<span style="color:#f92672">(</span>conf<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;weather example&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//Assigning the driver class name
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        job<span style="color:#f92672">.</span><span style="color:#a6e22e">setJarByClass</span><span style="color:#f92672">(</span>MyMaxMin<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//Key type coming out of mapper
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        job<span style="color:#f92672">.</span><span style="color:#a6e22e">setMapOutputKeyClass</span><span style="color:#f92672">(</span>Text<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//value type coming out of mapper
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        job<span style="color:#f92672">.</span><span style="color:#a6e22e">setMapOutputValueClass</span><span style="color:#f92672">(</span>Text<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//Defining the mapper class name
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        job<span style="color:#f92672">.</span><span style="color:#a6e22e">setMapperClass</span><span style="color:#f92672">(</span>MaxTemperatureMapper<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//Defining the reducer class name
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        job<span style="color:#f92672">.</span><span style="color:#a6e22e">setReducerClass</span><span style="color:#f92672">(</span>MaxTemperatureReducer<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//Defining input Format class which is responsible to parse the dataset into a key value pair
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        job<span style="color:#f92672">.</span><span style="color:#a6e22e">setInputFormatClass</span><span style="color:#f92672">(</span>TextInputFormat<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//Defining output Format class which is responsible to parse the dataset into a key value pair
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        job<span style="color:#f92672">.</span><span style="color:#a6e22e">setOutputFormatClass</span><span style="color:#f92672">(</span>TextOutputFormat<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//setting the second argument as a path in a path variable
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        Path OutputPath <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Path<span style="color:#f92672">(</span>args<span style="color:#f92672">[</span>1<span style="color:#f92672">]);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//Configuring the input path from the filesystem into the job
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        FileInputFormat<span style="color:#f92672">.</span><span style="color:#a6e22e">addInputPath</span><span style="color:#f92672">(</span>job<span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> Path<span style="color:#f92672">(</span>args<span style="color:#f92672">[</span>0<span style="color:#f92672">]));</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//Configuring the output path from the filesystem into the job
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        FileOutputFormat<span style="color:#f92672">.</span><span style="color:#a6e22e">setOutputPath</span><span style="color:#f92672">(</span>job<span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> Path<span style="color:#f92672">(</span>args<span style="color:#f92672">[</span>1<span style="color:#f92672">]));</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//deleting the context path automatically from hdfs so that we don&#39;t have delete it explicitly
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        OutputPath<span style="color:#f92672">.</span><span style="color:#a6e22e">getFileSystem</span><span style="color:#f92672">(</span>conf<span style="color:#f92672">).</span><span style="color:#a6e22e">delete</span><span style="color:#f92672">(</span>OutputPath<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//exiting the job only if the flag value becomes false
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">exit</span><span style="color:#f92672">(</span>job<span style="color:#f92672">.</span><span style="color:#a6e22e">waitForCompletion</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">)</span> <span style="color:#f92672">?</span> 0 <span style="color:#f92672">:</span> 1<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>保存退出</p>
+<p><strong>定位到  Hadoop  CLASSPATH路径</strong></p>
+<p>#该操作需要在Hadoop环境搭建初期在环境变量中写入HADOOP_CLASSPATH路径</p>
+<p>$  export  HADOOP_CLASSPATH=$(hadoop classpath)</p>
+<p><strong>创建类文件夹</strong>、</p>
+<p>$  mkdir  temperature_classes</p>
+<p><strong>编译  java class  类文件</strong></p>
+<p>$  javac  -classpath  ${HADOOP_CLASSPTH}  -d  temperature_classes  MyMaxMin.java</p>
+<p><strong>将 java class 类文件打包成  jar 文件</strong></p>
+<p>$  jar  -cvf  temperature.jar  -C  temperature_classes</p>
+<h2 id="四处理数据集">四、处理数据集</h2>
+<p>$  hadoop  jar  temperature.jar  MyMaxMin  temperature/input   temperature/output</p>
+<h2 id="五下载查看处理结果">五、下载查看处理结果</h2>
+<p>$  hdfs  dfs   -get  temperature/output</p>
+<p>$  ls</p>
+<p>$  cd  output</p>
+<p>$  cat  part-r-00000</p>
+
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="/post/2022/11/30/markdown-syntax/">Markdown-Syntax</a></span>
+  <span class="nav-next"><a href="/post/2022/11/30/linux%E5%AE%89%E8%A3%85node.js%E8%AF%A6%E7%BB%86node.js%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/">Linux安装Node.js（详细）Node.js安装教程</a> &rarr;</span>
+</nav>
+
+
+
+
+
+<script src="//yihui.org/js/math-code.js"></script>
+<script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+<script async src="//yihui.org/js/center-img.js"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+  
+  <hr>
+  <div class="copyright">© <a href="https://wind.netlify.app">Yao John</a> 2022 | <a href="https://github.com/Y-John-17/YaoJohn">Github</a></div>
+  
+  </footer>
+  </article>
+  
+  </body>
+</html>
+

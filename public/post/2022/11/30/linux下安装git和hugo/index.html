@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Linux下安装Git和Hugo - Yao John</title>
+    <meta property="og:title" content="Linux下安装Git和Hugo - Yao John">
+    
+    <meta name="twitter:card" content="summary">
+
+    
+      
+    
+
+    
+      
+      <meta property="description" content="yum install gitgit # 查看是否安装成功git config --global user.name &amp;#34;你的昵称&amp;#34; git config --global user.email &amp;#34;你的邮箱&amp;#34; 2.安装Hugo # 第一种方式是上传安装包 `hugo_0.65.1_Linux-64bit.deb` 在可视化桌面下点击打开即可安装# 第二种方法采用 &amp;hellip;">
+      <meta property="og:description" content="yum install gitgit # 查看是否安装成功git config --global user.name &amp;#34;你的昵称&amp;#34; git config --global user.email &amp;#34;你的邮箱&amp;#34; 2.安装Hugo # 第一种方式是上传安装包 `hugo_0.65.1_Linux-64bit.deb` 在可视化桌面下点击打开即可安装# 第二种方法采用 &amp;hellip;">
+      
+    
+
+    
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    <link rel="stylesheet" href="/css/custom.css" />
+
+  </head>
+
+  
+  <body class="post">
+    <header class="masthead">
+      <h1><a href="/">Yao John</a></h1>
+
+<p class="tagline">A Hugo theme.</p>
+
+      <nav class="menu">
+  <input id="menu-check" type="checkbox" hidden/>
+  <label id="menu-label" for="menu-check" class="unselectable" hidden>
+    <span class="icon close-icon">✕</span>
+    <span class="icon open-icon">☰</span>
+    <span class="text">Menu</span>
+  </label>
+  <ul>
+  
+  
+  <li><a href="/">Home</a></li>
+  
+  <li><a href="/about/">About</a></li>
+  
+  <li><a href="/categories/">Categories</a></li>
+  
+  <li><a href="/tags/">Tags</a></li>
+  
+  <li><a href="/index.xml">Subscribe</a></li>
+  
+  
+  </ul>
+</nav>
+
+    </header>
+
+    <article class="main">
+      <header class="title">
+      
+<h1>Linux下安装Git和Hugo</h1>
+
+<h3>Yao John
+  /  2022-11-30</h3>
+<hr>
+
+
+      </header>
+
+
+
+
+
+<h1 id="linux下安装-git-和-hugo">Linux下安装 Git 和 Hugo</h1>
+<h2 id="1安装git">1.安装git</h2>
+<pre tabindex="0"><code class="language-Linux" data-lang="Linux">yum install git
+git # 查看是否安装成功
+git config --global user.name &#34;你的昵称&#34; 
+git config --global user.email &#34;你的邮箱&#34;
+</code></pre><h2 id="2安装hugohttpsgithubcomgohugoiohugoreleases">2.安装<a href="https://github.com/gohugoio/hugo/releases">Hugo</a></h2>
+<pre tabindex="0"><code class="language-linux" data-lang="linux"># 第一种方式是上传安装包  `hugo_0.65.1_Linux-64bit.deb`  在可视化桌面下点击打开即可安装
+ 
+# 第二种方法采用压缩包安装（操作更加简便）
+hugo_0.65.1_Linux-64bit.tar.gz
+sudo tar -zxvf hugo_0.65.1_Linux-64bit.tar.gz -C /usr/local/bin/  # 无需配置环境变量
+</code></pre><blockquote>
+<p><a href="https://themes.gohugo.io/">Hugo Themes</a></p>
+</blockquote>
+<ul>
+<li>你能在这个网站挑选一个你喜欢的主题，并下载到本地，方便后面博客的美化</li>
+</ul>
+
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="/post/2022/11/30/linux%E5%AE%89%E8%A3%85node.js%E8%AF%A6%E7%BB%86node.js%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/">Linux安装Node.js（详细）Node.js安装教程</a></span>
+  <span class="nav-next"><a href="/post/2022/11/30/hadoop%E8%AF%8D%E9%A2%91%E7%BB%9F%E8%AE%A1/">Hadoop词频统计</a> &rarr;</span>
+</nav>
+
+
+
+
+
+<script src="//yihui.org/js/math-code.js"></script>
+<script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+<script async src="//yihui.org/js/center-img.js"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+  
+  <hr>
+  <div class="copyright">© <a href="https://wind.netlify.app">Yao John</a> 2022 | <a href="https://github.com/Y-John-17/YaoJohn">Github</a></div>
+  
+  </footer>
+  </article>
+  
+  </body>
+</html>
+

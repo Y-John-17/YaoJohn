@@ -1,15 +1,14 @@
 ---
-title: Hadoop-3.1.4 完全分布式集群搭建
+title: Hadoop
 author: Yao John
 date: '2022-11-30'
 slug: hadoop
 categories:
-  - JAVA
+  - Hadoop
 tags:
   - Hadoop
-  - Distributed Computer System
   - Big Data
-
+  - Distributed System Environment
 ---
 
 # Hadoop-3.1.4 完全分布式集群搭建

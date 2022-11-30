@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Centos on Yao John</title>
+    <link>/tags/centos/</link>
+    <description>Recent content in Centos on Yao John</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 30 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="/tags/centos/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Windows-Docker-安装Centos系统</title>
+      <link>/post/2022/11/30/windows-docker-%E5%AE%89%E8%A3%85centos%E7%B3%BB%E7%BB%9F/</link>
+      <pubDate>Wed, 30 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2022/11/30/windows-docker-%E5%AE%89%E8%A3%85centos%E7%B3%BB%E7%BB%9F/</guid>
+      <description>windows docker 安装centOS系统 （1) 拉取镜像 输入命令docker pull centos:7 从仓库拉取centos7的镜像
+（2) 查看本地镜像 命令：docker images
+可以查看已经把centos的镜像拉取到本地
+&amp;lt;div class=&amp;#34;figure&amp;#34;&amp;gt; &amp;lt;img src=&amp;#34;/post/2022/11/30/windows-docker-%E5%AE%89%E8%A3%85centos%E7%B3%BB%E7%BB%9F/index_files/figure-html/1.png&amp;#34; alt=&amp;#34;A fancy pie chart.&amp;#34; width=&amp;#34;672&amp;#34; /&amp;gt; &amp;lt;p class=&amp;#34;caption&amp;#34;&amp;gt;Figure 1: A fancy pie chart.&amp;lt;/p&amp;gt; &amp;lt;/div&amp;gt; （3) 创建并运行容器 命令：docker run -d -i -t 470671670cac /bin/bash
+命令格式：docker run -d -i -t &amp;lt;IMAGE ID&amp;gt; /bin/bash
+执行完命令后，在命令下方会出现容器ID。
+（4) 进入使用容器 命令：docker exec -it 82d5f bash
+在此处容器的ID只输入前5位，系统会自动识别容器ID
+命令格式：docker exec -it &amp;lt;CONTAINER ID&amp;gt; bash
+（5) 安装工具 输入ifconfig命令查看网卡信息，系统找不到
+输入命令安装：yum install -y net-tools</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Mapreduce on Yao John</title>
+    <link>/tags/mapreduce/</link>
+    <description>Recent content in Mapreduce on Yao John</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 30 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="/tags/mapreduce/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MapReduce气温统计实验</title>
+      <link>/post/2022/11/30/mapreduce%E6%B0%94%E6%B8%A9%E7%BB%9F%E8%AE%A1%E5%AE%9E%E9%AA%8C/</link>
+      <pubDate>Wed, 30 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2022/11/30/mapreduce%E6%B0%94%E6%B8%A9%E7%BB%9F%E8%AE%A1%E5%AE%9E%E9%AA%8C/</guid>
+      <description>MapReduce气温统计实验 一、数据集准备 数据集下载地址：ftp://ftp.ncdc.noaa.gov/pub/data/uscrn/products/daily01
+将下载下来的数据集合并，更名为 temperature.txt
+二、数据集导入 将预处理好的数据导入Linux中，并启动Hadoop集群守护进程
+$ ll temperature.txt 查看文件是否导入成功
+在hdfs创建文件路径和上传数据集
+$ hdfs dfs -mkdir temperature
+$ hdfs dfs -mkdir temperature/input
+$ hdfs dfs -mkdir temperature/output
+$ hdfs dfs -put temperature.txt temperature/input
+在浏览器中核验文件是否上传成功（注意关闭防火墙）
+192.168.153.147:50070 192.168.153.147:8088
+三、数据处理脚本编译 编写 java 文件
+$ vim MyMaxMin.java
+写入脚本代码
+import java.io.IOException; import java.util.Iterator; import org.apache.hadoop.fs.Path; import org.apache.hadoop.io.LongWritable; import org.apache.hadoop.io.Text; import org.apache.hadoop.mapreduce.lib.input.FileInputFormat; import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat; import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat; import org.apache.hadoop.mapreduce.lib.input.TextInputFormat; import org.apache.hadoop.mapreduce.Job; import org.apache.hadoop.mapreduce.Mapper; import org.apache.hadoop.mapreduce.Reducer; import org.apache.hadoop.conf.Configuration; public class MyMaxMin { //Mapper /** *MaxTemperatureMapper class is static and extends Mapper abstract class having four hadoop generics type LongWritable, Text, Text, Text.</description>
+    </item>
+    
+  </channel>
+</rss>

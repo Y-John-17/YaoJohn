@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Hadoop词频统计 - Yao John</title>
+    <meta property="og:title" content="Hadoop词频统计 - Yao John">
+    
+    <meta name="twitter:card" content="summary">
+
+    
+      
+    
+
+    
+      
+      <meta property="description" content="该实验采用Hadoop单分布模式即可满足，需要自己前期搭建
+[&amp;hellip;] Hadoop守护进程启动
+[&amp;hellip;] cd ./hadoop/sbin/start-all.sh 查看相关守护进程是否已经启动 使用jps命令 Jps NodeManager SecondaryNameNode NameNode DataNode ResourceManager &amp;hellip;">
+      <meta property="og:description" content="该实验采用Hadoop单分布模式即可满足，需要自己前期搭建
+[&amp;hellip;] Hadoop守护进程启动
+[&amp;hellip;] cd ./hadoop/sbin/start-all.sh 查看相关守护进程是否已经启动 使用jps命令 Jps NodeManager SecondaryNameNode NameNode DataNode ResourceManager &amp;hellip;">
+      
+    
+
+    
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    <link rel="stylesheet" href="/css/custom.css" />
+
+  </head>
+
+  
+  <body class="post">
+    <header class="masthead">
+      <h1><a href="/">Yao John</a></h1>
+
+<p class="tagline">A Hugo theme.</p>
+
+      <nav class="menu">
+  <input id="menu-check" type="checkbox" hidden/>
+  <label id="menu-label" for="menu-check" class="unselectable" hidden>
+    <span class="icon close-icon">✕</span>
+    <span class="icon open-icon">☰</span>
+    <span class="text">Menu</span>
+  </label>
+  <ul>
+  
+  
+  <li><a href="/">Home</a></li>
+  
+  <li><a href="/about/">About</a></li>
+  
+  <li><a href="/categories/">Categories</a></li>
+  
+  <li><a href="/tags/">Tags</a></li>
+  
+  <li><a href="/index.xml">Subscribe</a></li>
+  
+  
+  </ul>
+</nav>
+
+    </header>
+
+    <article class="main">
+      <header class="title">
+      
+<h1>Hadoop词频统计</h1>
+
+<h3>Yao John
+  /  2022-11-30</h3>
+<hr>
+
+
+      </header>
+
+
+
+
+
+<h1 id="hadoop词频统计">Hadoop词频统计</h1>
+<h2 id="前期准备">前期准备</h2>
+<blockquote>
+<p>该实验采用Hadoop单分布模式即可满足，需要自己前期搭建</p>
+</blockquote>
+<p><strong>Hadoop守护进程启动</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-JAVA" data-lang="JAVA"><span style="display:flex;"><span>cd <span style="color:#f92672">./</span>hadoop<span style="color:#f92672">/</span>sbin<span style="color:#f92672">/</span>start<span style="color:#f92672">-</span>all<span style="color:#f92672">.</span><span style="color:#a6e22e">sh</span>
+</span></span></code></pre></div><ul>
+<li>查看相关守护进程是否已经启动</li>
+<li>使用<code>jps</code>命令</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-JAVA" data-lang="JAVA"><span style="display:flex;"><span>Jps
+</span></span><span style="display:flex;"><span>NodeManager
+</span></span><span style="display:flex;"><span>SecondaryNameNode
+</span></span><span style="display:flex;"><span>NameNode
+</span></span><span style="display:flex;"><span>DataNode
+</span></span><span style="display:flex;"><span>ResourceManager
+</span></span></code></pre></div><p><strong>数据集预处理</strong></p>
+<ol>
+<li>数据集编码格式<code>UTF-8</code>,所采用数据集中词频采用统一分隔符，否则需要自行编写函数</li>
+<li>在Linux用户目录下新建一个<code>wordcount</code>文件夹，导入数据集</li>
+<li>在hdfs新建文件目录</li>
+</ol>
+<ul>
+<li><code>hdfs dfs -mkdir /wordcount</code></li>
+<li><code>hdfs dfs -mkdir /wordcount/input</code></li>
+<li><code>hdfs dfs -mkdir /wordcount/output</code></li>
+</ul>
+<ol start="4">
+<li>将数据集存储到hdfs</li>
+</ol>
+<ul>
+<li><code>cd /tmp/wordcount</code></li>
+<li><code>hdfs dfs -put wordcount.txt /wordcount/input</code></li>
+<li><code>hdfs dfs -ls /input</code></li>
+</ul>
+<h2 id="使用hadoop自带的jar文件脚本处理数据">使用Hadoop自带的Jar文件脚本处理数据</h2>
+<p><strong>数据集处理</strong></p>
+<ul>
+<li>
+<p><code>cd ./hadoop/share/hadoop/mapreduce/</code></p>
+</li>
+<li>
+<p><code>ll hadoop-mapreduce-examples-3.1.3.jar</code></p>
+</li>
+<li>
+<p><code>hadoop  jar ./hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.1.3.jar  wordcount   wordcount/input/wordcount.txt  wordcount/output</code>
+#jar表示运行脚本类型，后面是具体脚本存储路径，wordcount是脚本中Java主函数类名，后面是数据集存储路径和输出路径
+<strong>数据集处理结果查看</strong></p>
+</li>
+<li>
+<p><code>hdfs dfs -cat /wordcount/output/part-r-00000</code>
+<strong>数据集处理结果下载</strong></p>
+</li>
+<li>
+<p><code>hdfs dfs -get /wordcount/output/</code></p>
+</li>
+</ul>
+<h2 id="end-">End !</h2>
+
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="/post/2022/11/30/linux%E4%B8%8B%E5%AE%89%E8%A3%85git%E5%92%8Chugo/">Linux下安装Git和Hugo</a></span>
+  <span class="nav-next"><a href="/post/2022/11/30/hadoop/">Hadoop</a> &rarr;</span>
+</nav>
+
+
+
+
+
+<script src="//yihui.org/js/math-code.js"></script>
+<script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+<script async src="//yihui.org/js/center-img.js"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+  
+  <hr>
+  <div class="copyright">© <a href="https://wind.netlify.app">Yao John</a> 2022 | <a href="https://github.com/Y-John-17/YaoJohn">Github</a></div>
+  
+  </footer>
+  </article>
+  
+  </body>
+</html>
+
