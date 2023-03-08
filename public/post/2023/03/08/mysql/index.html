@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>MySQL服务及操作平台安装 - Yao John</title>
+    <meta property="og:title" content="MySQL服务及操作平台安装 - Yao John">
+    
+    <meta name="twitter:card" content="summary">
+
+    
+      
+    
+
+    
+      
+      <meta property="description" content="数据库：按照数据结构组织、存储和管理数据的仓库，是一个长期存储在计算机内的、有组织的、可共享的、统一管理的大量数据的集合
+关系数据库TRDB：二维表方式存储，列式存储和行存储，可定义数据之间的关系，查询时采用列约束和行约束，遵循ACID原则。
+非关系型数据库NoSQL：数据存储之间无相关性，通过键值对方式映射存储，遵循BASE原则，存储方式有键值对存储、文档存储、列存储和图存储。 &amp;hellip;">
+      <meta property="og:description" content="数据库：按照数据结构组织、存储和管理数据的仓库，是一个长期存储在计算机内的、有组织的、可共享的、统一管理的大量数据的集合
+关系数据库TRDB：二维表方式存储，列式存储和行存储，可定义数据之间的关系，查询时采用列约束和行约束，遵循ACID原则。
+非关系型数据库NoSQL：数据存储之间无相关性，通过键值对方式映射存储，遵循BASE原则，存储方式有键值对存储、文档存储、列存储和图存储。 &amp;hellip;">
+      
+    
+
+    
+    
+    <meta name="twitter:image" content="https://s1.ax1x.com/2023/03/08/ppefgiT.jpg">
+    
+    
+
+    
+
+    
+    
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    <link rel="stylesheet" href="/css/custom.css" />
+
+  </head>
+
+  
+  <body class="post">
+    <header class="masthead">
+      <h1><a href="/">Yao John</a></h1>
+
+<p class="tagline">A Hugo theme.</p>
+
+      <nav class="menu">
+  <input id="menu-check" type="checkbox" hidden/>
+  <label id="menu-label" for="menu-check" class="unselectable" hidden>
+    <span class="icon close-icon">✕</span>
+    <span class="icon open-icon">☰</span>
+    <span class="text">Menu</span>
+  </label>
+  <ul>
+  
+  
+  <li><a href="/">Home</a></li>
+  
+  <li><a href="/about/">About</a></li>
+  
+  <li><a href="/categories/">Categories</a></li>
+  
+  <li><a href="/tags/">Tags</a></li>
+  
+  <li><a href="/index.xml">Subscribe</a></li>
+  
+  
+  </ul>
+</nav>
+
+    </header>
+
+    <article class="main">
+      <header class="title">
+      
+<h1>MySQL服务及操作平台安装</h1>
+
+<h3>Yao-John
+  /  2023-03-08</h3>
+<hr>
+
+
+      </header>
+
+
+
+
+
+<h2 id="数据库分类">数据库分类：</h2>
+<blockquote>
+<p><code>数据库</code>：按照数据结构组织、存储和管理数据的仓库，是一个长期存储在计算机内的、有组织的、可共享的、统一管理的大量数据的集合</p>
+<p><code>关系数据库TRDB</code>：二维表方式存储，列式存储和行存储，可定义数据之间的关系，查询时采用列约束和行约束，遵循<a href="%E5%8E%9F%E5%AD%90%E6%80%A7%E3%80%81%E4%B8%80%E8%87%B4%E6%80%A7%E3%80%81%E7%8B%AC%E7%AB%8B%E6%80%A7%E3%80%81%E6%8C%81%E4%B9%85%E6%80%A7">ACID原则</a>。</p>
+<p><code>非关系型数据库NoSQL</code>：数据存储之间无相关性，通过键值对方式映射存储，<a href="%E5%9F%BA%E6%9C%AC%E5%8F%AF%E7%94%A8%E3%80%81%E8%BD%AF%E8%BF%9E%E6%8E%A5%E3%80%81%E6%9C%80%E7%BB%88%E4%B8%80%E8%87%B4%E6%80%A7">遵循BASE原则</a>，存储方式有键值对存储、文档存储、列存储和图存储。</p>
+</blockquote>
+<h2 id="一数据库和结构化查询语言简介">一、数据库和结构化查询语言简介</h2>
+<ol>
+<li>关系数据库</li>
+</ol>
+<p>借助于集合代数等概念和方法来处理数据库中的数据，是一个被组织成一组拥有正式描述性的表格（二维表形式）</p>
+<ol start="2">
+<li>结构化查询语言<code>SQL</code></li>
+</ol>
+<p>一种特殊目的的编程语言，一种数据库查询和程序设计语言，用于存取数据以及查询、更新和管理关系数据库系统(增、删、改、查)，<strong>通过结构化查询语言操作、管理数据库</strong></p>
+<h2 id="二mysql数据库操作平台安装">二、MySQL数据库操作平台安装</h2>
+<p>1.官网下载地址：<code>https://dev.mysql.com/downloads/workbench/</code></p>
+<ol start="2">
+<li>
+<p>点击<code>Go to Download Page</code>跳转页面选择完整版安装（选较大的安装包），涵括MySQL数据库系统、操作平台及附件安装</p>
+<p><a href="https://imgse.com/i/ppefgiT"><img src="https://s1.ax1x.com/2023/03/08/ppefgiT.jpg" alt="ppefgiT.jpg"></a></p>
+</li>
+<li>
+<p><code>No thanks,just start my download</code>开始下载</p>
+</li>
+<li>
+<p>下载完成后运行安装程序</p>
+</li>
+</ol>
+<p>选择&quot;Full&quot;,这样就能把MySQL Workbench一并安装。如果没安装Python，因此会在Check Requirement中提醒，点击Execute让其自动安装。最后提示“One or more product requirements have not been satisfied”，直接点击Yes，继续。
+<a href="https://imgse.com/i/ppef2JU"><img src="https://s1.ax1x.com/2023/03/08/ppef2JU.jpg" alt="ppef2JU.jpg"></a></p>
+<ol start="5">
+<li>点击&quot;Execute&quot;</li>
+</ol>
+<p><a href="https://imgse.com/i/ppefyd0"><img src="https://s1.ax1x.com/2023/03/08/ppefyd0.jpg" alt="ppefyd0.jpg"></a></p>
+<p>6、自动弹出Microsoft Visual C++的安装，常规安装即可</p>
+<p>7、等它安装完后，点击下一步</p>
+<p><a href="https://imgse.com/i/ppefbFK"><img src="https://s1.ax1x.com/2023/03/08/ppefbFK.jpg" alt="ppefbFK.jpg"></a></p>
+<p>8、点击“Yes”</p>
+<p><a href="https://imgse.com/i/ppefxOA"><img src="https://s1.ax1x.com/2023/03/08/ppefxOA.jpg" alt="ppefxOA.jpg"></a></p>
+<p>9、点击，然后它就会自动安装</p>
+<p><a href="https://imgse.com/i/ppehiY8"><img src="https://s1.ax1x.com/2023/03/08/ppehiY8.png" alt="ppehiY8.png"></a></p>
+<p>10、等它安装完成后，点击下一步</p>
+<p><a href="https://imgse.com/i/ppehZOs"><img src="https://s1.ax1x.com/2023/03/08/ppehZOs.png" alt="ppehZOs.png"></a></p>
+<p>11、点击下一步</p>
+<p><a href="https://imgse.com/i/ppehnwq"><img src="https://s1.ax1x.com/2023/03/08/ppehnwq.png" alt="ppehnwq.png"></a></p>
+<p>12、后来到这个页面，Dedicated Computer，允许其占用更多内存。Development Computer占用最小内存，适合电脑上还有许多其他程序的情形。Server Computer占用内存中等。如果3306端口用过了，要改成其他，比如3305</p>
+<p><a href="https://imgse.com/i/ppehQYT"><img src="https://s1.ax1x.com/2023/03/08/ppehQYT.jpg" alt="ppehQYT.jpg"></a></p>
+<p><a href="https://imgse.com/i/ppehlfU"><img src="https://s1.ax1x.com/2023/03/08/ppehlfU.png" alt="ppehlfU.png"></a></p>
+<p>13、选择，点击下一步</p>
+<p><a href="https://imgse.com/i/ppeh3pF"><img src="https://s1.ax1x.com/2023/03/08/ppeh3pF.png" alt="ppeh3pF.png"></a></p>
+<p>14、设置完密码，根据引导就可完成安装</p>
+<p>默认安装路径<code>C:\Program Files\MySQL\MySQL Workbench 8.0</code></p>
+<blockquote>
+<p>MySQL服务默认后台开启，如果发现数据库连接不上时，需要重启MySQL服务</p>
+<ol>
+<li>win+R输入命令</li>
+</ol>
+<p><code>services.msc</code></p>
+<p>找到你的<code>MYSQL_XXX</code>，比如我的<code>MYSQL80</code></p>
+<p><a href="https://imgse.com/i/ppehs6H"><img src="https://s1.ax1x.com/2023/03/08/ppehs6H.png" alt="ppehs6H.png"></a></p>
+</blockquote>
+
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="/post/2022/11/30/hadoop/">Hadoop</a></span>
+  <span class="nav-next"></span>
+</nav>
+
+
+
+
+
+<script src="//yihui.org/js/math-code.js"></script>
+<script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+<script async src="//yihui.org/js/center-img.js"></script>
+
+  
+
+  
+  <hr>
+  <div class="copyright">© <a href="https://wind.netlify.app">Yao John</a> 2022 | <a href="https://github.com/Y-John-17/YaoJohn">Github</a></div>
+  
+  </footer>
+  </article>
+  
+  </body>
+</html>
+
